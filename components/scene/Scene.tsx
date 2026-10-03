@@ -16,7 +16,7 @@ export interface SceneProps {
 }
 
 function initialQuality(): Quality {
-  // Phones and tablets start on the cheap glass; the monitor can raise it.
+  // Phones and tablets start on the cheap glass and stay there; the monitor only lowers quality.
   return window.matchMedia("(pointer: coarse)").matches ? "low" : "high";
 }
 
@@ -43,12 +43,8 @@ export default function Scene({ active, reducedMotion }: SceneProps) {
       camera={{ position: [5, 3.2, 7], fov: 40 }}
       gl={{ antialias: true }}
     >
-      <PerformanceMonitor
-        flipflops={3}
-        onIncline={() => setQuality("high")}
-        onDecline={() => setQuality("low")}
-        onFallback={() => setQuality("low")}
-      />
+      {/* One-way: drei counts every incline as a flip, so a monitor that also raised quality would fall back to low after about 11 s even at a steady 60 fps. */}
+      <PerformanceMonitor onDecline={() => setQuality("low")} />
       <SceneContents quality={quality} reducedMotion={reducedMotion} />
       <ContactShadows
         position={[0, 0.005, 0]}
