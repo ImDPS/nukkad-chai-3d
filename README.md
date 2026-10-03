@@ -21,7 +21,7 @@ Measured on the production build served locally, with Lighthouse 13.5.0 in headl
 | Lighthouse desktop: performance / accessibility / best practices / SEO | 68 / 100 / 100 / 100 |
 | Lighthouse mobile: performance / accessibility / best practices / SEO | 67 / 100 / 100 / 100 |
 | Total transfer, as Lighthouse measured it from a local server | 393 KiB |
-| Frame rate while orbiting, live site, desktop Chrome, day / night | 60.0 / 60.0 fps average (5th percentile 58.8 / 59.2), the display caps at 60 |
+| Frame rate while orbiting, live site, desktop Chrome, day / night | 60.0 / 60.0 fps average (5th percentile 59.5 / 59.5, longest frame 17 ms), the display caps at 60. One earlier run just after publishing showed night at 55.5 fps; it did not repeat in two later night runs |
 | Frame rate while orbiting, phone | not measured |
 
 Why performance is 68 and 67: the total blocking time is 2.2 s on desktop and 6.2 s on mobile, which is the CPU drawing the 3D scene (single runs; an earlier run before the final fixes gave 1.5 s and 4.8 s when the glass dropped to the cheap material after about 11 s; now it stays on the full material, which probably costs more on a software renderer, not proven). With WebGL off (`?nowebgl`, the static fallback) the same mobile run scored 98 with 150 ms of blocking time and 145 KiB transferred (measured before the final fixes, not repeated). A real GPU should not behave like the software renderer, but that has not been measured here.
