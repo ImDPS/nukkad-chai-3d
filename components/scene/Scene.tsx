@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { useEffect, useState } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
 import { ContactShadows, OrbitControls, PerformanceMonitor } from "@react-three/drei";
 import { silenceThreeClockWarning } from "@/lib/console-filter";
 import { SceneContents } from "./SceneContents";
@@ -18,6 +18,18 @@ export interface SceneProps {
 function initialQuality(): Quality {
   // Phones and tablets start on the cheap glass; the monitor can raise it.
   return window.matchMedia("(pointer: coarse)").matches ? "low" : "high";
+}
+
+/** OrbitControls sets touch-action: none on the element it controls (the canvas wrapper), which traps a vertical swipe on a phone; pan-y lets it scroll the page while horizontal drags still orbit. */
+function TouchScroll() {
+  const get = useThree((state) => state.get);
+  const connected = useThree((state) => state.events.connected);
+  useEffect(() => {
+    const { gl, events } = get();
+    gl.domElement.style.touchAction = "pan-y";
+    if (events.connected instanceof HTMLElement) events.connected.style.touchAction = "pan-y";
+  }, [get, connected]);
+  return null;
 }
 
 export default function Scene({ active, reducedMotion }: SceneProps) {
@@ -61,6 +73,7 @@ export default function Scene({ active, reducedMotion }: SceneProps) {
         autoRotateSpeed={0.8}
         onStart={() => setTouched(true)}
       />
+      <TouchScroll />
     </Canvas>
   );
 }
