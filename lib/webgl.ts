@@ -10,10 +10,8 @@ function detectWebGL(): boolean {
   }
   try {
     const canvas = document.createElement("canvas");
-    const gl = (canvas.getContext("webgl2") ?? canvas.getContext("webgl")) as
-      | WebGL2RenderingContext
-      | WebGLRenderingContext
-      | null;
+    // three r163 and later need WebGL 2; a WebGL 1 only browser would throw after the download.
+    const gl = canvas.getContext("webgl2");
     webglCache = Boolean(gl);
     gl?.getExtension("WEBGL_lose_context")?.loseContext();
   } catch {

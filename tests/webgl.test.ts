@@ -55,6 +55,13 @@ describe("useWebGLSupport", () => {
     expect(snapshots.client()).toBe(false);
   });
 
+  it("is false when only WebGL 1 is available", async () => {
+    // three needs WebGL 2, so a browser that offers only "webgl" must count as unsupported.
+    stubBrowser("", (type) => (type === "webgl" ? { getExtension: () => null } : null));
+    const snapshots = await loadHook();
+    expect(snapshots.client()).toBe(false);
+  });
+
   it("is false when creating a context throws", async () => {
     stubBrowser("", () => {
       throw new Error("blocked");
