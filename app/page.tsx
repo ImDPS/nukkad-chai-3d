@@ -1,5 +1,9 @@
 import { Customiser } from "@/components/customiser/Customiser";
 import { SceneCanvas } from "@/components/scene/SceneCanvas";
+import { Events } from "@/components/sections/Events";
+import { Footer } from "@/components/sections/Footer";
+import { HoursLocation } from "@/components/sections/HoursLocation";
+import { Menu } from "@/components/sections/Menu";
 import { SITE } from "@/lib/content";
 
 export default function Home() {
@@ -27,7 +31,12 @@ export default function Home() {
           </figure>
           <Customiser />
         </section>
+        <Menu />
+        <HoursLocation />
+        <Events />
       </main>
+
+      <Footer />
     </>
   );
 }
