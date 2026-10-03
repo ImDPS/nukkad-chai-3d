@@ -1,9 +1,10 @@
-name: CI and publish to gh-pages
+name: CI, and publish from deploy to gh-pages
 
 on:
   push:
     branches:
       - main
+      - deploy
   workflow_dispatch:
 
 # Only write access to repository contents is needed, to update the gh-pages branch.
@@ -48,9 +49,10 @@ jobs:
       - name: Check built pages for contact details
         run: node scripts/contact-check.mjs out
 
-      # Publish only from main. The gh-pages branch holds nothing but the build output.
+      # Publish only from the deploy branch. Main only runs the checks above.
+      # The gh-pages branch holds nothing but the build output.
       - name: Publish to gh-pages branch
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/deploy'
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
