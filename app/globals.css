@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-chai-cream: #fbf1df;
+  --color-chai-card: #fff8ea;
+  --color-chai-ink: #2a1a0e;
+  --color-chai-marigold: #f2a900;
+  --color-chai-vermilion: #c1272d;
+  --color-chai-leaf: #2e7d32;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
