@@ -14,14 +14,15 @@ A concept project: a fast, accessible 3D landing page for a **fictional** street
 
 ## Measured results
 
-Measured on the production build served locally, with Lighthouse 13.5.0 in headless Chrome. That browser draws WebGL on the CPU (software rendering), so the performance score and blocking time are indicative only. This is not a phone test and not a run on the live site.
+Measured on the production build served locally, with Lighthouse 13.5.0 in headless Chrome. That browser draws WebGL on the CPU (software rendering), so the performance score and blocking time are indicative only. The frame rate rows below are a separate run on the live site (see the table). This is not a phone test.
 
 | What | Result |
 |---|---|
 | Lighthouse desktop: performance / accessibility / best practices / SEO | 65 / 100 / 100 / 100 |
 | Lighthouse mobile: performance / accessibility / best practices / SEO | 66 / 100 / 100 / 100 |
 | Total transfer, as Lighthouse measured it from a local server | 418 KiB |
-| Frame rate while orbiting (laptop / phone) | not measured |
+| Frame rate while orbiting, live site, desktop Chrome, day / night | 60.0 / 60.0 fps average (5th percentile 58.8 / 59.2), the display caps at 60 |
+| Frame rate while orbiting, phone | not measured |
 
 Why performance is 65 and 66: the total blocking time is 1.5 s on desktop and 4.8 s on mobile, which is the CPU drawing the 3D scene. With WebGL off (`?nowebgl`, the static fallback) the same mobile run scores 98 with 150 ms of blocking time and 145 KiB transferred. A real GPU should not behave like the software renderer, but that has not been measured here.
 
