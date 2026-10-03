@@ -2,6 +2,9 @@
 
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { silenceThreeClockWarning } from "@/lib/console-filter";
+
+silenceThreeClockWarning();
 
 export interface SceneProps {
   /** false while the scene is off screen: the render loop pauses */
