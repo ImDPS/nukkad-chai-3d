@@ -1,4 +1,4 @@
-name: CI and deploy to GitHub Pages
+name: CI and publish to gh-pages
 
 on:
   push:
@@ -6,10 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+# Only write access to repository contents is needed, to update the gh-pages branch.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -40,30 +39,29 @@ jobs:
       - name: Unit tests
         run: npm test
 
-      - name: Setup Pages
-        id: setup_pages
-        uses: actions/configure-pages@v5
-
+      # The site is served from /<repository name>, so the base path follows the repo name.
       - name: Build static export
         run: npm run build
         env:
-          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
 
       - name: Check built pages for contact details
         run: node scripts/contact-check.mjs out
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # Publish only from main. The gh-pages branch holds nothing but the build output.
+      - name: Publish to gh-pages branch
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +x
+          # Without this file, Pages runs Jekyll, which hides the _next folder.
+          touch out/.nojekyll
+          cd out
+          git init -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: ${{ github.sha }}"
+          # Force push keeps the branch as a single commit of the latest build.
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" gh-pages
