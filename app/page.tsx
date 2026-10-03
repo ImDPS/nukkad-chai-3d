@@ -1,4 +1,4 @@
-import { StallPoster } from "@/components/scene/StallPoster";
+import { SceneCanvas } from "@/components/scene/SceneCanvas";
 
 export default function Home() {
   return (
@@ -7,8 +7,8 @@ export default function Home() {
       <p className="mt-2">
         Nukkad Chai is a fictional stall. This page is a concept project, not a real business.
       </p>
-      <div className="mt-6 aspect-[16/10] overflow-hidden rounded-2xl">
-        <StallPoster />
+      <div className="mt-6">
+        <SceneCanvas />
       </div>
     </main>
   );
