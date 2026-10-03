@@ -58,7 +58,7 @@ export default function Scene({ active, reducedMotion }: SceneProps) {
       <OrbitControls
         makeDefault
         enablePan={false}
-        enableDamping
+        enableDamping={!reducedMotion}
         dampingFactor={0.08}
         target={[0, 1.1, 0]}
         minDistance={5}

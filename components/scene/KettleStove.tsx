@@ -19,10 +19,6 @@ export function KettleStove() {
         <coneGeometry args={[0.05, 0.22, 12]} />
         <meshStandardMaterial color="#9aa0a6" metalness={0.8} roughness={0.3} />
       </mesh>
-      <mesh position={[-0.02, 0.5, 0]} rotation-x={Math.PI / 2}>
-        <torusGeometry args={[0.16, 0.015, 8, 24, Math.PI]} />
-        <meshStandardMaterial color="#5b3a1e" />
-      </mesh>
     </group>
   );
 }
